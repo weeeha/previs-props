@@ -1,17 +1,17 @@
 # Previs Props
 
-120 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
+121 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
 fixtures, hand props, nature and prop weapons. One consistent look, flat colours, soft bevelled edges, light
 enough for a standalone VR headset.
 
-Status: exploration. First public cut 2026-11-13, 20 more props added the same day. The models have been rendered in Blender but not yet checked
+Status: exploration. First public cut 2026-11-13, 20 more props and the sedan buck added the same day. The models have been rendered in Blender but not yet checked
 in a game engine.
 
 ## What is here
 
 | Group | Count | Folder |
 |---|---|---|
-| Vehicles | 17 | `models/vehicles` |
+| Vehicles | 18 | `models/vehicles` |
 | Buildings and structures | 10 | `models/buildings` |
 | Modular set pieces | 17 | `models/set-pieces` |
 | Street and yard | 20 | `models/street` |
@@ -61,6 +61,11 @@ Each model has its own folder with the FBX, the Blender script that built it (`m
   props at the base centre, prop weapons at the grip.
 - Each file has one root empty named after the model, with one joined mesh under it.
 - Anything a person sits in or on has a child empty named `Seat`.
+- `sedanbuck` is the exception to the one-mesh rule. It is the sedan built for shooting inside the car: the
+  roof, windshield, rear window, four doors, interior and body are separate meshes under the root, so any of them
+  can be hidden to let the camera in. It has a seat point per place (`Seat_Driver`, `Seat_Passenger`,
+  `Seat_RearLeft`, `Seat_RearRight`) and clear glass. The grey figures in its renders are scale stand-ins and are
+  not in the file.
 - Colours only, no image textures. Each model uses at most about ten materials.
 - The set pieces snap on a 1 m grid: walls are 0.15 m thick and 2.7 m tall.
 
