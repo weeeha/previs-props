@@ -839,5 +839,12 @@
   "fbx": [
    "Rowboat.fbx"
   ]
+ },
+ {
+  "name": "sedanbuck",
+  "category": "vehicles",
+  "fbx": [
+   "SedanBuck.fbx"
+  ]
  }
 ]
