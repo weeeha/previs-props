@@ -1,22 +1,22 @@
 # Previs Props
 
-100 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
+120 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
 fixtures, hand props, nature and prop weapons. One consistent look, flat colours, soft bevelled edges, light
 enough for a standalone VR headset.
 
-Status: exploration. First public cut, 2026-11-13. The models have been rendered in Blender but not yet checked
+Status: exploration. First public cut 2026-11-13, 20 more props added the same day. The models have been rendered in Blender but not yet checked
 in a game engine.
 
 ## What is here
 
 | Group | Count | Folder |
 |---|---|---|
-| Vehicles | 14 | `models/vehicles` |
+| Vehicles | 17 | `models/vehicles` |
 | Buildings and structures | 10 | `models/buildings` |
-| Modular set pieces | 12 | `models/set-pieces` |
-| Street and yard | 16 | `models/street` |
-| Furniture | 16 | `models/furniture` |
-| Fixtures and electronics | 10 | `models/fixtures` |
+| Modular set pieces | 17 | `models/set-pieces` |
+| Street and yard | 20 | `models/street` |
+| Furniture | 21 | `models/furniture` |
+| Fixtures and electronics | 13 | `models/fixtures` |
 | Hand props | 12 | `models/hand-props` |
 | Nature | 6 | `models/nature` |
 | Prop weapons | 4 | `models/prop-weapons` |
