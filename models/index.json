@@ -1,0 +1,702 @@
+[
+ {
+  "name": "sedan",
+  "category": "vehicles",
+  "fbx": [
+   "Sedan.fbx"
+  ]
+ },
+ {
+  "name": "hatchback",
+  "category": "vehicles",
+  "fbx": [
+   "Hatchback.fbx"
+  ]
+ },
+ {
+  "name": "suv",
+  "category": "vehicles",
+  "fbx": [
+   "SUV.fbx"
+  ]
+ },
+ {
+  "name": "pickup",
+  "category": "vehicles",
+  "fbx": [
+   "Pickup.fbx"
+  ]
+ },
+ {
+  "name": "van",
+  "category": "vehicles",
+  "fbx": [
+   "Van.fbx"
+  ]
+ },
+ {
+  "name": "offroad4x4",
+  "category": "vehicles",
+  "fbx": [
+   "Offroad4x4.fbx"
+  ]
+ },
+ {
+  "name": "taxi",
+  "category": "vehicles",
+  "fbx": [
+   "Taxi.fbx"
+  ]
+ },
+ {
+  "name": "policecar",
+  "category": "vehicles",
+  "fbx": [
+   "PoliceCar.fbx"
+  ]
+ },
+ {
+  "name": "ambulance",
+  "category": "vehicles",
+  "fbx": [
+   "Ambulance.fbx"
+  ]
+ },
+ {
+  "name": "citybus",
+  "category": "vehicles",
+  "fbx": [
+   "CityBus.fbx"
+  ]
+ },
+ {
+  "name": "boxtruck",
+  "category": "vehicles",
+  "fbx": [
+   "BoxTruck.fbx"
+  ]
+ },
+ {
+  "name": "dirtbike",
+  "category": "vehicles",
+  "fbx": [
+   "DirtBike.fbx"
+  ]
+ },
+ {
+  "name": "bicycle",
+  "category": "vehicles",
+  "fbx": [
+   "Bicycle.fbx"
+  ]
+ },
+ {
+  "name": "atv",
+  "category": "vehicles",
+  "fbx": [
+   "ATV.fbx"
+  ]
+ },
+ {
+  "name": "house",
+  "category": "buildings",
+  "fbx": [
+   "House.fbx"
+  ]
+ },
+ {
+  "name": "rowhouse",
+  "category": "buildings",
+  "fbx": [
+   "Rowhouse.fbx"
+  ]
+ },
+ {
+  "name": "shopfront",
+  "category": "buildings",
+  "fbx": [
+   "Shopfront.fbx"
+  ]
+ },
+ {
+  "name": "warehouse",
+  "category": "buildings",
+  "fbx": [
+   "Warehouse.fbx"
+  ]
+ },
+ {
+  "name": "garage",
+  "category": "buildings",
+  "fbx": [
+   "Garage.fbx"
+  ]
+ },
+ {
+  "name": "cabin",
+  "category": "buildings",
+  "fbx": [
+   "Cabin.fbx"
+  ]
+ },
+ {
+  "name": "bunker",
+  "category": "buildings",
+  "fbx": [
+   "Bunker.fbx"
+  ]
+ },
+ {
+  "name": "tent",
+  "category": "buildings",
+  "fbx": [
+   "Tent.fbx"
+  ]
+ },
+ {
+  "name": "radiotower",
+  "category": "buildings",
+  "fbx": [
+   "RadioTower.fbx"
+  ]
+ },
+ {
+  "name": "watertower",
+  "category": "buildings",
+  "fbx": [
+   "WaterTower.fbx"
+  ]
+ },
+ {
+  "name": "wall1m",
+  "category": "set-pieces",
+  "fbx": [
+   "Wall1m.fbx"
+  ]
+ },
+ {
+  "name": "wall3m",
+  "category": "set-pieces",
+  "fbx": [
+   "Wall3m.fbx"
+  ]
+ },
+ {
+  "name": "walldoorway",
+  "category": "set-pieces",
+  "fbx": [
+   "WallDoorway.fbx"
+  ]
+ },
+ {
+  "name": "wallwindow",
+  "category": "set-pieces",
+  "fbx": [
+   "WallWindow.fbx"
+  ]
+ },
+ {
+  "name": "doorinterior",
+  "category": "set-pieces",
+  "fbx": [
+   "DoorInterior.fbx"
+  ]
+ },
+ {
+  "name": "doorsteel",
+  "category": "set-pieces",
+  "fbx": [
+   "DoorSteel.fbx"
+  ]
+ },
+ {
+  "name": "windowframe",
+  "category": "set-pieces",
+  "fbx": [
+   "WindowFrame.fbx"
+  ]
+ },
+ {
+  "name": "stairs",
+  "category": "set-pieces",
+  "fbx": [
+   "Stairs.fbx"
+  ]
+ },
+ {
+  "name": "railing",
+  "category": "set-pieces",
+  "fbx": [
+   "Railing.fbx"
+  ]
+ },
+ {
+  "name": "fencechainlink",
+  "category": "set-pieces",
+  "fbx": [
+   "FenceChainLink.fbx"
+  ]
+ },
+ {
+  "name": "fencewood",
+  "category": "set-pieces",
+  "fbx": [
+   "FenceWood.fbx"
+  ]
+ },
+ {
+  "name": "pillar",
+  "category": "set-pieces",
+  "fbx": [
+   "Pillar.fbx"
+  ]
+ },
+ {
+  "name": "streetlamp",
+  "category": "street",
+  "fbx": [
+   "StreetLamp.fbx"
+  ]
+ },
+ {
+  "name": "trafficlight",
+  "category": "street",
+  "fbx": [
+   "TrafficLight.fbx"
+  ]
+ },
+ {
+  "name": "stopsign",
+  "category": "street",
+  "fbx": [
+   "StopSign.fbx"
+  ]
+ },
+ {
+  "name": "roadbarrier",
+  "category": "street",
+  "fbx": [
+   "RoadBarrier.fbx"
+  ]
+ },
+ {
+  "name": "trafficcone",
+  "category": "street",
+  "fbx": [
+   "TrafficCone.fbx"
+  ]
+ },
+ {
+  "name": "bench",
+  "category": "street",
+  "fbx": [
+   "Bench.fbx"
+  ]
+ },
+ {
+  "name": "trashbin",
+  "category": "street",
+  "fbx": [
+   "TrashBin.fbx"
+  ]
+ },
+ {
+  "name": "dumpster",
+  "category": "street",
+  "fbx": [
+   "Dumpster.fbx"
+  ]
+ },
+ {
+  "name": "firehydrant",
+  "category": "street",
+  "fbx": [
+   "FireHydrant.fbx"
+  ]
+ },
+ {
+  "name": "mailbox",
+  "category": "street",
+  "fbx": [
+   "Mailbox.fbx"
+  ]
+ },
+ {
+  "name": "utilitypole",
+  "category": "street",
+  "fbx": [
+   "UtilityPole.fbx"
+  ]
+ },
+ {
+  "name": "busshelter",
+  "category": "street",
+  "fbx": [
+   "BusShelter.fbx"
+  ]
+ },
+ {
+  "name": "container",
+  "category": "street",
+  "fbx": [
+   "Container.fbx"
+  ]
+ },
+ {
+  "name": "drum",
+  "category": "street",
+  "fbx": [
+   "Drum.fbx"
+  ]
+ },
+ {
+  "name": "woodencrate",
+  "category": "street",
+  "fbx": [
+   "WoodenCrate.fbx"
+  ]
+ },
+ {
+  "name": "pallet",
+  "category": "street",
+  "fbx": [
+   "Pallet.fbx"
+  ]
+ },
+ {
+  "name": "diningtable",
+  "category": "furniture",
+  "fbx": [
+   "DiningTable.fbx"
+  ]
+ },
+ {
+  "name": "desk",
+  "category": "furniture",
+  "fbx": [
+   "Desk.fbx"
+  ]
+ },
+ {
+  "name": "coffeetable",
+  "category": "furniture",
+  "fbx": [
+   "CoffeeTable.fbx"
+  ]
+ },
+ {
+  "name": "bedsidetable",
+  "category": "furniture",
+  "fbx": [
+   "BedsideTable.fbx"
+  ]
+ },
+ {
+  "name": "chair",
+  "category": "furniture",
+  "fbx": [
+   "Chair.fbx"
+  ]
+ },
+ {
+  "name": "officechair",
+  "category": "furniture",
+  "fbx": [
+   "OfficeChair.fbx"
+  ]
+ },
+ {
+  "name": "armchair",
+  "category": "furniture",
+  "fbx": [
+   "Armchair.fbx"
+  ]
+ },
+ {
+  "name": "sofa",
+  "category": "furniture",
+  "fbx": [
+   "Sofa.fbx"
+  ]
+ },
+ {
+  "name": "beddouble",
+  "category": "furniture",
+  "fbx": [
+   "BedDouble.fbx"
+  ]
+ },
+ {
+  "name": "bedsingle",
+  "category": "furniture",
+  "fbx": [
+   "BedSingle.fbx"
+  ]
+ },
+ {
+  "name": "wardrobe",
+  "category": "furniture",
+  "fbx": [
+   "Wardrobe.fbx"
+  ]
+ },
+ {
+  "name": "bookshelf",
+  "category": "furniture",
+  "fbx": [
+   "Bookshelf.fbx"
+  ]
+ },
+ {
+  "name": "kitchencounter",
+  "category": "furniture",
+  "fbx": [
+   "KitchenCounter.fbx"
+  ]
+ },
+ {
+  "name": "fridge",
+  "category": "furniture",
+  "fbx": [
+   "Fridge.fbx"
+  ]
+ },
+ {
+  "name": "barcounter",
+  "category": "furniture",
+  "fbx": [
+   "BarCounter.fbx"
+  ]
+ },
+ {
+  "name": "barstool",
+  "category": "furniture",
+  "fbx": [
+   "BarStool.fbx"
+  ]
+ },
+ {
+  "name": "tv",
+  "category": "fixtures",
+  "fbx": [
+   "TV.fbx"
+  ]
+ },
+ {
+  "name": "laptop",
+  "category": "fixtures",
+  "fbx": [
+   "Laptop.fbx"
+  ]
+ },
+ {
+  "name": "monitorkeyboard",
+  "category": "fixtures",
+  "fbx": [
+   "MonitorKeyboard.fbx"
+  ]
+ },
+ {
+  "name": "deskphone",
+  "category": "fixtures",
+  "fbx": [
+   "DeskPhone.fbx"
+  ]
+ },
+ {
+  "name": "floorlamp",
+  "category": "fixtures",
+  "fbx": [
+   "FloorLamp.fbx"
+  ]
+ },
+ {
+  "name": "tablelamp",
+  "category": "fixtures",
+  "fbx": [
+   "TableLamp.fbx"
+  ]
+ },
+ {
+  "name": "sink",
+  "category": "fixtures",
+  "fbx": [
+   "Sink.fbx"
+  ]
+ },
+ {
+  "name": "toilet",
+  "category": "fixtures",
+  "fbx": [
+   "Toilet.fbx"
+  ]
+ },
+ {
+  "name": "bathtub",
+  "category": "fixtures",
+  "fbx": [
+   "Bathtub.fbx"
+  ]
+ },
+ {
+  "name": "stove",
+  "category": "fixtures",
+  "fbx": [
+   "Stove.fbx"
+  ]
+ },
+ {
+  "name": "smartphone",
+  "category": "hand-props",
+  "fbx": [
+   "Smartphone.fbx"
+  ]
+ },
+ {
+  "name": "mug",
+  "category": "hand-props",
+  "fbx": [
+   "Mug.fbx"
+  ]
+ },
+ {
+  "name": "glass",
+  "category": "hand-props",
+  "fbx": [
+   "Glass.fbx"
+  ]
+ },
+ {
+  "name": "bottle",
+  "category": "hand-props",
+  "fbx": [
+   "Bottle.fbx"
+  ]
+ },
+ {
+  "name": "plate",
+  "category": "hand-props",
+  "fbx": [
+   "Plate.fbx"
+  ]
+ },
+ {
+  "name": "book",
+  "category": "hand-props",
+  "fbx": [
+   "Book.fbx"
+  ]
+ },
+ {
+  "name": "folder",
+  "category": "hand-props",
+  "fbx": [
+   "Folder.fbx"
+  ]
+ },
+ {
+  "name": "briefcase",
+  "category": "hand-props",
+  "fbx": [
+   "Briefcase.fbx"
+  ]
+ },
+ {
+  "name": "backpack",
+  "category": "hand-props",
+  "fbx": [
+   "Backpack.fbx"
+  ]
+ },
+ {
+  "name": "suitcase",
+  "category": "hand-props",
+  "fbx": [
+   "Suitcase.fbx"
+  ]
+ },
+ {
+  "name": "duffelbag",
+  "category": "hand-props",
+  "fbx": [
+   "DuffelBag.fbx"
+  ]
+ },
+ {
+  "name": "cardboardbox",
+  "category": "hand-props",
+  "fbx": [
+   "CardboardBox.fbx"
+  ]
+ },
+ {
+  "name": "treeleafy",
+  "category": "nature",
+  "fbx": [
+   "TreeLeafy.fbx"
+  ]
+ },
+ {
+  "name": "treepine",
+  "category": "nature",
+  "fbx": [
+   "TreePine.fbx"
+  ]
+ },
+ {
+  "name": "treedead",
+  "category": "nature",
+  "fbx": [
+   "TreeDead.fbx"
+  ]
+ },
+ {
+  "name": "bush",
+  "category": "nature",
+  "fbx": [
+   "Bush.fbx"
+  ]
+ },
+ {
+  "name": "rock",
+  "category": "nature",
+  "fbx": [
+   "Rock.fbx"
+  ]
+ },
+ {
+  "name": "grasspatch",
+  "category": "nature",
+  "fbx": [
+   "GrassPatch.fbx"
+  ]
+ },
+ {
+  "name": "proppistol",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropPistol.fbx"
+  ]
+ },
+ {
+  "name": "proprifle",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropRifle.fbx"
+  ]
+ },
+ {
+  "name": "propknife",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropKnife.fbx"
+  ]
+ },
+ {
+  "name": "baseballbat",
+  "category": "prop-weapons",
+  "fbx": [
+   "BaseballBat.fbx"
+  ]
+ }
+]

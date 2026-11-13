@@ -1,0 +1,4 @@
+.DS_Store
+*.blend1
+out/
+__pycache__/
