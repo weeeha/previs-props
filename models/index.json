@@ -698,5 +698,146 @@
   "fbx": [
    "BaseballBat.fbx"
   ]
+ },
+ {
+  "name": "floortile",
+  "category": "set-pieces",
+  "fbx": [
+   "FloorTile.fbx"
+  ]
+ },
+ {
+  "name": "doordouble",
+  "category": "set-pieces",
+  "fbx": [
+   "DoorDouble.fbx"
+  ]
+ },
+ {
+  "name": "elevatordoors",
+  "category": "set-pieces",
+  "fbx": [
+   "ElevatorDoors.fbx"
+  ]
+ },
+ {
+  "name": "stairslanding",
+  "category": "set-pieces",
+  "fbx": [
+   "StairsLanding.fbx"
+  ]
+ },
+ {
+  "name": "curtains",
+  "category": "set-pieces",
+  "fbx": [
+   "Curtains.fbx"
+  ]
+ },
+ {
+  "name": "hospitalbed",
+  "category": "furniture",
+  "fbx": [
+   "HospitalBed.fbx"
+  ]
+ },
+ {
+  "name": "wheelchair",
+  "category": "furniture",
+  "fbx": [
+   "Wheelchair.fbx"
+  ]
+ },
+ {
+  "name": "filingcabinet",
+  "category": "furniture",
+  "fbx": [
+   "FilingCabinet.fbx"
+  ]
+ },
+ {
+  "name": "whiteboard",
+  "category": "furniture",
+  "fbx": [
+   "Whiteboard.fbx"
+  ]
+ },
+ {
+  "name": "cafetable",
+  "category": "furniture",
+  "fbx": [
+   "CafeTable.fbx"
+  ]
+ },
+ {
+  "name": "shopshelf",
+  "category": "fixtures",
+  "fbx": [
+   "ShopShelf.fbx"
+  ]
+ },
+ {
+  "name": "checkoutcounter",
+  "category": "fixtures",
+  "fbx": [
+   "CheckoutCounter.fbx"
+  ]
+ },
+ {
+  "name": "vendingmachine",
+  "category": "fixtures",
+  "fbx": [
+   "VendingMachine.fbx"
+  ]
+ },
+ {
+  "name": "gaspump",
+  "category": "street",
+  "fbx": [
+   "GasPump.fbx"
+  ]
+ },
+ {
+  "name": "picnictable",
+  "category": "street",
+  "fbx": [
+   "PicnicTable.fbx"
+  ]
+ },
+ {
+  "name": "parkingmeter",
+  "category": "street",
+  "fbx": [
+   "ParkingMeter.fbx"
+  ]
+ },
+ {
+  "name": "cameratripod",
+  "category": "street",
+  "fbx": [
+   "CameraTripod.fbx"
+  ]
+ },
+ {
+  "name": "motorcycle",
+  "category": "vehicles",
+  "fbx": [
+   "Motorcycle.fbx"
+  ]
+ },
+ {
+  "name": "semitruck",
+  "category": "vehicles",
+  "fbx": [
+   "SemiTruck.fbx",
+   "SemiTruckTractor.fbx"
+  ]
+ },
+ {
+  "name": "rowboat",
+  "category": "vehicles",
+  "fbx": [
+   "Rowboat.fbx"
+  ]
  }
 ]
