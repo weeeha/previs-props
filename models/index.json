@@ -700,6 +700,41 @@
   ]
  },
  {
+  "name": "proprevolver",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropRevolver.fbx"
+  ]
+ },
+ {
+  "name": "propsmg",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropSMG.fbx"
+  ]
+ },
+ {
+  "name": "propassaultrifle",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropAssaultRifle.fbx"
+  ]
+ },
+ {
+  "name": "propsniper",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropSniper.fbx"
+  ]
+ },
+ {
+  "name": "propshotgun",
+  "category": "prop-weapons",
+  "fbx": [
+   "PropShotgun.fbx"
+  ]
+ },
+ {
   "name": "floortile",
   "category": "set-pieces",
   "fbx": [
@@ -845,6 +880,13 @@
   "category": "vehicles",
   "fbx": [
    "SedanBuck.fbx"
+  ]
+ },
+ {
+  "name": "helicopter",
+  "category": "vehicles",
+  "fbx": [
+   "Helicopter.fbx"
   ]
  }
 ]
