@@ -188,8 +188,8 @@ for i in range(len(stations) - 1):
         k = j if j < 9 else 17 - j
         f = bm.faces.new([rings[i][j], rings[i][(j + 1) % 18], rings[i + 1][(j + 1) % 18], rings[i + 1][j]])
         mi = PAINT
-        if LAMP_F0 < xm < LAMP_F1 and (k == 5 or (k in (6, 7) and xm < .11)):
-            mi = AMBER if xm > AMBER_F else LAMP
+        if LAMP_F0 < xm < .11 and k in (5, 6, 7):   # v2: lamps on the front face only, no strip along the fender
+            mi = LAMP
         elif LAMP_F0 < xm < .11 and k == 8:
             mi = MARK_GRILLE
         elif LAMP_R0 < xm < 4.72 and k == 4:
@@ -264,9 +264,9 @@ def inset(bm, faces, thick, depth, rim_mi):
 
 bm.faces.ensure_lookup_table()
 front = lambda f: f.calc_center_median().y < 0
-inset(bm, [f for f in bm.faces if f.material_index in (LAMP, AMBER) and front(f)], .014, -.012, TRIM)
+inset(bm, [f for f in bm.faces if f.material_index in (LAMP, AMBER) and front(f)], .014, -.004, TRIM)   # v2: shallow, no dark gap under the hood
 grille = [f for f in bm.faces if f.material_index == MARK_GRILLE]
-inset(bm, grille, .016, -.022, TRIM)
+inset(bm, grille, .016, -.010, TRIM)
 for f in grille: f.material_index = BLACK
 inset(bm, [f for f in bm.faces if f.material_index in (RED, LAMP) and not front(f)], .010, -.008, TRIM)
 CUR[0] = 'Body'; finish(obj_from_bm('Body', bm))
@@ -447,10 +447,30 @@ for k in range(3):
     x = .070 + k * .0145
     ang = math.atan2(.80 + .03 - .645, .11 - .06)
     box('GrilleBar', (0, Y(x) - .004, slant(x) - .008), (.80, .014, .022), TRIM, .004, rot=(-(pi / 2 - ang), 0, 0))
-box('Intake', (0, Y(0) + .012, .36), (.92, .05, .11), BLACK, .012)
-box('IntakeBar', (0, Y(0) + .0, .36), (.90, .03, .014), TRIM, 0)
+box('Intake', (0, Y(0) + .012, .325), (.92, .05, .09), BLACK, .012)
+box('IntakeBar', (0, Y(0) + .0, .325), (.90, .03, .014), TRIM, 0)
+# v2: a real bumper bar that wraps the corners and runs back to the wheel arch, and amber side markers
+BUMP_Z0, BUMP_Z1 = .405, .535
+BUMP = [(.93, .50), (.925, .30), (.905, .11), (.895, .08), (.86, .03), (.80, -.012), (.72, -.035)]   # (half width, x), rear to front
+outline = [(w, x) for w, x in BUMP] + [(-w, x) for w, x in BUMP[::-1]]
+bb = bmesh.new()
+ring = []
+for w, x in outline:
+    wi = w - math.copysign(.07, w)
+    xi = x + .07 if x < .05 else x
+    ring.append((bb.verts.new((w, Y(x), BUMP_Z0)), bb.verts.new((w, Y(x), BUMP_Z1)),
+                 bb.verts.new((wi, Y(xi), BUMP_Z0)), bb.verts.new((wi, Y(xi), BUMP_Z1))))
+for a, b in zip(ring, ring[1:]):
+    bb.faces.new([a[0], b[0], b[1], a[1]])      # outer wall
+    bb.faces.new([a[1], b[1], b[3], a[3]])      # top
+    bb.faces.new([a[0], a[2], b[2], b[0]])      # bottom
+for e in (ring[0], ring[-1]):
+    bb.faces.new([e[0], e[1], e[3], e[2]])      # end caps at the wheel arches
+bmesh.ops.recalc_face_normals(bb, faces=bb.faces)
+o = obj_from_bm('BumperF', bb); add_bevel(o, .012, 2); finish(o, TRIM)
 for s in (-1, 1):
-    box('Fog', (s * .66, Y(0) + .03, .43), (.15, .07, .08), BLACK, .012, rot=(0, 0, s * -0.25))
+    box('Fog', (s * .60, Y(0) + .02, .325), (.13, .06, .06), LAMP, .010)
+    box('Marker', (s * (side_w(.24, .60) + .002), Y(.24), .60), (.014, .17, .05), AMBER, .004, rot=(0, 0, -s * .105))
 box('PlateRear', (0, Y(4.80) + .004, .50), (.48, .012, .12), LAMP, .004)
 box('TrunkHandle', (0, Y(4.765) + .012, .70), (.50, .02, .03), TRIM, .006)
 box('TrunkSeam', (0, Y(4.44), 1.091), (.90, .012, .008), SEAM, 0)
