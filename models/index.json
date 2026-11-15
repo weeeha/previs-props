@@ -168,6 +168,20 @@
   ]
  },
  {
+  "name": "gasstation",
+  "category": "buildings",
+  "fbx": [
+   "GasStation.fbx"
+  ]
+ },
+ {
+  "name": "church",
+  "category": "buildings",
+  "fbx": [
+   "Church.fbx"
+  ]
+ },
+ {
   "name": "wall1m",
   "category": "set-pieces",
   "fbx": [
@@ -630,6 +644,41 @@
   ]
  },
  {
+  "name": "flashlight",
+  "category": "hand-props",
+  "fbx": [
+   "Flashlight.fbx"
+  ]
+ },
+ {
+  "name": "walkietalkie",
+  "category": "hand-props",
+  "fbx": [
+   "WalkieTalkie.fbx"
+  ]
+ },
+ {
+  "name": "handcuffs",
+  "category": "hand-props",
+  "fbx": [
+   "Handcuffs.fbx"
+  ]
+ },
+ {
+  "name": "newspaper",
+  "category": "hand-props",
+  "fbx": [
+   "Newspaper.fbx"
+  ]
+ },
+ {
+  "name": "medicalbag",
+  "category": "hand-props",
+  "fbx": [
+   "MedicalBag.fbx"
+  ]
+ },
+ {
   "name": "treeleafy",
   "category": "nature",
   "fbx": [
@@ -669,6 +718,34 @@
   "category": "nature",
   "fbx": [
    "GrassPatch.fbx"
+  ]
+ },
+ {
+  "name": "palmtree",
+  "category": "nature",
+  "fbx": [
+   "PalmTree.fbx"
+  ]
+ },
+ {
+  "name": "treestump",
+  "category": "nature",
+  "fbx": [
+   "TreeStump.fbx"
+  ]
+ },
+ {
+  "name": "fallenlog",
+  "category": "nature",
+  "fbx": [
+   "FallenLog.fbx"
+  ]
+ },
+ {
+  "name": "boulder",
+  "category": "nature",
+  "fbx": [
+   "Boulder.fbx"
   ]
  },
  {
@@ -770,6 +847,13 @@
   ]
  },
  {
+  "name": "jailbars",
+  "category": "set-pieces",
+  "fbx": [
+   "JailBars.fbx"
+  ]
+ },
+ {
   "name": "hospitalbed",
   "category": "furniture",
   "fbx": [
@@ -826,6 +910,13 @@
   ]
  },
  {
+  "name": "ivstand",
+  "category": "fixtures",
+  "fbx": [
+   "IVStand.fbx"
+  ]
+ },
+ {
   "name": "gaspump",
   "category": "street",
   "fbx": [
@@ -851,6 +942,27 @@
   "category": "street",
   "fbx": [
    "CameraTripod.fbx"
+  ]
+ },
+ {
+  "name": "phonebooth",
+  "category": "street",
+  "fbx": [
+   "PhoneBooth.fbx"
+  ]
+ },
+ {
+  "name": "atm",
+  "category": "street",
+  "fbx": [
+   "ATM.fbx"
+  ]
+ },
+ {
+  "name": "vendorcart",
+  "category": "street",
+  "fbx": [
+   "VendorCart.fbx"
   ]
  },
  {
@@ -887,6 +999,34 @@
   "category": "vehicles",
   "fbx": [
    "Helicopter.fbx"
+  ]
+ },
+ {
+  "name": "firetruck",
+  "category": "vehicles",
+  "fbx": [
+   "FireTruck.fbx"
+  ]
+ },
+ {
+  "name": "towtruck",
+  "category": "vehicles",
+  "fbx": [
+   "TowTruck.fbx"
+  ]
+ },
+ {
+  "name": "sportscar",
+  "category": "vehicles",
+  "fbx": [
+   "SportsCar.fbx"
+  ]
+ },
+ {
+  "name": "speedboat",
+  "category": "vehicles",
+  "fbx": [
+   "Speedboat.fbx"
   ]
  }
 ]
