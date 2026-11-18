@@ -1,0 +1,363 @@
+# ---------------------------------------------------------------- shared helpers (library helper block, as in gaspump and the prop guns)
+# Usage: /Applications/Blender.app/Contents/MacOS/Blender -b --python make_<name>.py -- <out dir>
+# 1 unit = 1 m, front toward -Y, up +Z, origin on the ground at the centre of the footprint (hand props: base centre).
+# Everything is built into ONE bmesh with per-face material indices, so there is no join and no slot shuffle.
+import bpy, bmesh, sys, math, os, subprocess, random
+from mathutils import Vector, Matrix
+
+OUT = sys.argv[sys.argv.index('--') + 1]
+bpy.ops.wm.read_factory_settings(use_empty=True)
+scene = bpy.context.scene
+
+# shared palette: same name = same colour in every library model (name: rgb, roughness, metallic, emission, alpha)
+PALETTE = {
+    'Steel':      ((0.30, 0.31, 0.32), 0.45, 0.6, 0, 1),
+    'Black':      ((0.025, 0.025, 0.027), 0.6, 0.0, 0, 1),
+    'Concrete':   ((0.30, 0.30, 0.29), 0.9, 0.0, 0, 1),
+    'Wood':       ((0.45, 0.20, 0.075), 0.7, 0.0, 0, 1),
+    'WoodDark':   ((0.36, 0.155, 0.055), 0.75, 0.0, 0, 1),
+    'WoodLight':  ((0.62, 0.40, 0.20), 0.65, 0.0, 0, 1),
+    'White':      ((0.80, 0.80, 0.78), 0.55, 0.0, 0, 1),
+    'Glass':      ((0.012, 0.014, 0.018), 0.08, 0.0, 0, 1),          # lenses (dark, opaque)
+    'GlassClear': ((0.22, 0.32, 0.36), 0.05, 0.0, 0, 0.35),           # glazing, exported under the name Glass
+    'Rubber':     ((0.012, 0.012, 0.013), 0.85, 0.0, 0, 1),
+    'Screen':     ((0.02, 0.05, 0.06), 0.2, 0.0, 0.25, 1),
+    'Aluminium':  ((0.45, 0.46, 0.47), 0.4, 0.8, 0, 1),
+    'Plastic':    ((0.035, 0.036, 0.04), 0.5, 0.0, 0, 1),
+    'PlasticGrey': ((0.20, 0.205, 0.21), 0.5, 0.0, 0, 1),
+    'Graphite':   ((0.075, 0.078, 0.085), 0.45, 0.3, 0, 1),
+    'GripRubber': ((0.045, 0.046, 0.05), 0.85, 0.0, 0, 1),
+    'PaintGrey':  ((0.42, 0.43, 0.44), 0.55, 0.15, 0, 1),
+    'Paper':      ((0.86, 0.86, 0.84), 0.8, 0.0, 0, 1),
+    'PaperGrey':  ((0.36, 0.36, 0.355), 0.85, 0.0, 0, 1),
+    'PaperDark':  ((0.12, 0.12, 0.12), 0.85, 0.0, 0, 1),
+    'Fabric':     ((0.30, 0.32, 0.34), 0.9, 0.0, 0, 1),
+    'FabricDark': ((0.07, 0.075, 0.08), 0.9, 0.0, 0, 1),
+    'FabricRed':  ((0.42, 0.05, 0.035), 0.85, 0.0, 0, 1),
+    'FabricRedDark': ((0.24, 0.03, 0.022), 0.9, 0.0, 0, 1),
+    'Reflective': ((0.62, 0.64, 0.64), 0.3, 0.3, 0, 1),
+    'Bark':       ((0.200, 0.090, 0.040), 0.85, 0.0, 0, 1),
+    'BarkDark':   ((0.120, 0.055, 0.028), 0.9, 0.0, 0, 1),
+    'PalmBark':   ((0.42, 0.26, 0.13), 0.9, 0.0, 0, 1),
+    'PalmBarkDark': ((0.27, 0.16, 0.075), 0.9, 0.0, 0, 1),
+    'Leaf':       ((0.110, 0.230, 0.060), 0.8, 0.0, 0, 1),
+    'LeafDark':   ((0.060, 0.140, 0.040), 0.85, 0.0, 0, 1),
+    'LeafLight':  ((0.170, 0.300, 0.080), 0.8, 0.0, 0, 1),
+    'Moss':       ((0.12, 0.17, 0.05), 0.9, 0.0, 0, 1),
+    'Rock':       ((0.300, 0.295, 0.280), 0.9, 0.0, 0, 1),
+    'RockDark':   ((0.180, 0.175, 0.165), 0.95, 0.0, 0, 1),
+    'RockLight':  ((0.400, 0.395, 0.375), 0.9, 0.0, 0, 1),
+    'IVFluid':    ((0.70, 0.78, 0.80), 0.15, 0.0, 0, 0.6),
+    'TubeClear':  ((0.75, 0.80, 0.82), 0.2, 0.0, 0, 1),
+    'BoothRed':   ((0.45, 0.04, 0.03), 0.5, 0.0, 0, 1),
+    'CartYellow': ((0.80, 0.55, 0.10), 0.6, 0.0, 0, 1),
+    'CanopyRed':  ((0.55, 0.06, 0.04), 0.8, 0.0, 0, 1),
+    'LensWhite':  ((0.85, 0.85, 0.80), 0.25, 0.0, 0.6, 1),
+    'AtmBlue':    ((0.10, 0.22, 0.50), 0.5, 0.0, 0, 1),
+    'ScreenBlue': ((0.10, 0.28, 0.65), 0.2, 0.0, 0.5, 1),
+    'Cream':      ((0.80, 0.68, 0.50), 0.7, 0.0, 0, 1),
+    'LCD':        ((0.36, 0.42, 0.33), 0.3, 0.0, 0.1, 1),
+    'MedBlue':    ((0.17, 0.27, 0.38), 0.5, 0.0, 0, 1),
+    'FluidBlue':  ((0.25, 0.55, 0.80), 0.2, 0.0, 0, 1),
+    'BagOrange':  ((0.70, 0.22, 0.04), 0.8, 0.0, 0, 1),
+    'BagOrangeDark': ((0.40, 0.12, 0.03), 0.85, 0.0, 0, 1),
+    'TorchYellow': ((0.80, 0.55, 0.05), 0.5, 0.0, 0, 1),
+    'LensGreen':  ((0.05, 0.75, 0.20), 0.25, 0.0, 0.8, 1),
+    'LensRed':    ((0.90, 0.06, 0.03), 0.25, 0.0, 2.5, 1),
+}
+ORDER = []
+def use(*names):
+    for n in names:
+        rgb, rough, metal, emit, alpha = PALETTE[n]
+        m = bpy.data.materials.new('Glass' if n == 'GlassClear' else n); m.use_nodes = True
+        b = m.node_tree.nodes['Principled BSDF']
+        b.inputs['Base Color'].default_value = (*rgb, 1); b.inputs['Roughness'].default_value = rough
+        b.inputs['Metallic'].default_value = metal; m.diffuse_color = (*rgb, alpha)
+        if emit:
+            b.inputs['Emission Color'].default_value = (*rgb, 1); b.inputs['Emission Strength'].default_value = emit
+        if alpha < 1:
+            b.inputs['Alpha'].default_value = alpha
+            try: m.surface_render_method = 'BLENDED'
+            except Exception: pass
+        ORDER.append(m)
+    return range(len(names))
+
+BM = bmesh.new()
+def add(tbm, M=None, mi=None):
+    """Copy a temporary bmesh into the model, optionally transformed and recoloured."""
+    if M is not None: tbm.transform(M)
+    vmap = {v: BM.verts.new(v.co) for v in tbm.verts}
+    for f in tbm.faces:
+        try:
+            nf = BM.faces.new([vmap[v] for v in f.verts]); nf.material_index = f.material_index if mi is None else mi
+        except ValueError: pass
+    tbm.free()
+
+def _bevel(bm, bev, segs):
+    if bev: bmesh.ops.bevel(bm, geom=bm.edges[:] + bm.verts[:], offset=bev, segments=segs, affect='EDGES', profile=0.5, clamp_overlap=True)
+
+def box(lo, hi, mi, bev=0.01, segs=2, M=None, ret=False):
+    c = [(lo[i] + hi[i]) / 2 for i in range(3)]; s = [hi[i] - lo[i] for i in range(3)]
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0, matrix=Matrix.Translation(c) @ Matrix.Diagonal((*s, 1)))
+    _bevel(bm, bev, segs)
+    if ret:
+        for f in bm.faces: f.material_index = mi
+        return bm
+    add(bm, M, mi)
+
+def hexa(corners, mi, bev=0.01, segs=2, M=None):
+    """Box with free corners: corners[(sx, sy, sz)] = (x, y, z) for sx, sy, sz in -1/1."""
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=2.0)
+    for v in bm.verts: v.co = Vector(corners[(round(v.co.x), round(v.co.y), round(v.co.z))])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); _bevel(bm, bev, segs); add(bm, M, mi)
+
+def lathe(prof, n, mi, M=None, rfun=None, cap_top=True, cap_bot=True):
+    """prof: list of (r, z) or (r, z, mi_segment). rfun(angle, r, z) -> (r, mi or None) bends the ring per angle."""
+    bm = bmesh.new(); rings = []
+    for p in prof:
+        r, z = p[0], p[1]; ring = []
+        for k in range(n):
+            a = 2 * math.pi * k / n; rr = r
+            if rfun: rr = rfun(a, r, z)[0]
+            ring.append(bm.verts.new((rr * math.cos(a), rr * math.sin(a), z)))
+        rings.append(ring)
+    def segmi(i, k):
+        m = prof[i][2] if len(prof[i]) > 2 else mi
+        if rfun:
+            a = 2 * math.pi * (k + 0.5) / n; o = rfun(a, prof[i][0], (prof[i][1] + prof[i + 1][1]) / 2)[1]
+            if o is not None: m = o
+        return m
+    for i in range(len(prof) - 1):
+        for k in range(n):
+            f = bm.faces.new([rings[i][k], rings[i][(k + 1) % n], rings[i + 1][(k + 1) % n], rings[i + 1][k]]); f.material_index = segmi(i, k)
+    if cap_bot and prof[0][0] > 1e-6: f = bm.faces.new(rings[0][::-1]); f.material_index = prof[0][2] if len(prof[0]) > 2 else mi
+    if cap_top and prof[-1][0] > 1e-6: f = bm.faces.new(rings[-1]); f.material_index = prof[-2][2] if len(prof[-2]) > 2 else mi
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-6)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); add(bm, M)
+
+def cyl(r, z0, z1, mi, n=24, M=None, bev=0.0):
+    if bev: prof = [(r - bev, z0), (r, z0 + bev), (r, z1 - bev), (r - bev, z1)]
+    else: prof = [(r, z0), (r, z1)]
+    lathe(prof, n, mi, M)
+
+def prism(poly, d0, d1, mi, axis='Z', bev=0.0, segs=2, M=None, ret=False):
+    """Extrude a 2D polygon. axis 'Z': poly in XY, depth Z. 'X': poly in (Y, Z), depth X. 'Y': poly in (X, Z), depth Y."""
+    bm = bmesh.new()
+    def P(u, v, d):
+        return {'Z': (u, v, d), 'X': (d, u, v), 'Y': (u, d, v)}[axis]
+    a = [bm.verts.new(P(u, v, d0)) for u, v in poly]; b = [bm.verts.new(P(u, v, d1)) for u, v in poly]
+    n = len(poly); bm.faces.new(a[::-1]); bm.faces.new(b)
+    for i in range(n): bm.faces.new([a[i], a[(i + 1) % n], b[(i + 1) % n], b[i]])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); _bevel(bm, bev, segs)
+    if ret:
+        for f in bm.faces: f.material_index = mi
+        return bm
+    add(bm, M, mi)
+
+def stroke(pts, w, d0, d1, mi, axis='X', bev=0.0, segs=2, M=None):
+    """Thick 2D polyline (mitred), extruded like prism(): frames, brackets, handles."""
+    P = [Vector((p[0], p[1])) for p in pts]; L, R = [], []
+    for i, p in enumerate(P):
+        t0 = (P[i] - P[i - 1]).normalized() if i > 0 else (P[1] - P[0]).normalized()
+        t1 = (P[i + 1] - P[i]).normalized() if i < len(P) - 1 else t0
+        t = (t0 + t1).normalized(); nrm = Vector((-t.y, t.x)); s = w / 2 / max(0.3, nrm.dot(Vector((-t0.y, t0.x))))
+        L.append(p + nrm * s); R.append(p - nrm * s)
+    prism([tuple(v) for v in L + R[::-1]], d0, d1, mi, axis, bev, segs, M)
+
+def _frame(t, prev_u=None):
+    up = Vector((0, 0, 1)) if abs(t.z) < 0.9 else Vector((1, 0, 0))
+    u = t.cross(up).normalized() if prev_u is None else (prev_u - t * prev_u.dot(t)).normalized()
+    return u, t.cross(u)
+
+def sweep(path, radii, mi, n=12, mis=None, caps=True, closed=False, wob=None, M=None):
+    """Tube along points with a radius per point (parallel-transport frames). mis: material per segment.
+    wob(i, k) -> radial factor for organic surfaces. closed: loop (rings, cuffs)."""
+    P = [Vector(p) for p in path]; bm = bmesh.new(); rings = []; u = None; N = len(P)
+    for i, p in enumerate(P):
+        if closed: t = (P[(i + 1) % N] - P[i - 1]).normalized()
+        else: t = (P[min(i + 1, N - 1)] - P[max(i - 1, 0)]).normalized()
+        u, v = _frame(t, u)
+        r = radii[i] if isinstance(radii, (list, tuple)) else radii
+        ring = []
+        for k in range(n):
+            a = 2 * math.pi * k / n; f = wob(i, k) if wob else 1.0
+            ring.append(bm.verts.new(p + r * f * (math.cos(a) * u + math.sin(a) * v)))
+        rings.append(ring)
+    segs = N if closed else N - 1
+    for i in range(segs):
+        A, B = rings[i], rings[(i + 1) % N]
+        for k in range(n):
+            f = bm.faces.new([A[k], A[(k + 1) % n], B[(k + 1) % n], B[k]]); f.material_index = mis(i, k) if callable(mis) else (mis[i] if mis else mi)
+    if caps and not closed:
+        cm = (mis(0, 0), mis(N - 2, 0)) if callable(mis) else ((mis[0], mis[-1]) if mis else (mi, mi))
+        f = bm.faces.new(rings[0][::-1]); f.material_index = cm[0]
+        f = bm.faces.new(rings[-1]); f.material_index = cm[1]
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); add(bm, M)
+
+def tube(pts, r, mi, n=12, fillet=0.08, steps=6):
+    """Constant tube through corner points with rounded corners (hoses, rails, wires)."""
+    Pt = [Vector(p) for p in pts]; path = [Pt[0]]
+    for i in range(1, len(Pt) - 1):
+        a, b, c = Pt[i - 1], Pt[i], Pt[i + 1]; f = min(fillet, (a - b).length / 2, (c - b).length / 2)
+        s, e = b + (a - b).normalized() * f, b + (c - b).normalized() * f
+        for k in range(steps + 1): t = k / steps; path.append((1 - t) ** 2 * s + 2 * (1 - t) * t * b + t ** 2 * e)
+    path.append(Pt[-1]); sweep(path, r, mi, n)
+
+def torus(R, r, mi, nu=24, nv=8, M=None, sx=1.0):
+    """Ring in the XY plane (sx stretches it along X for oval links)."""
+    path = [(sx * R * math.cos(2 * math.pi * k / nu), R * math.sin(2 * math.pi * k / nu), 0) for k in range(nu)]
+    sweep(path, r, mi, nv, caps=False, closed=True, M=M)
+
+def blob(radius, mi, subdiv=2, seed=1, jitter=0.15, scale=(1, 1, 1), flat=None, M=None, mi_fun=None):
+    """Faceted organic lump from an icosphere: random radial jitter, optional flat cut at z=flat (before scale)."""
+    rnd = random.Random(seed); bm = bmesh.new()
+    bmesh.ops.create_icosphere(bm, subdivisions=subdiv, radius=radius)
+    for v in bm.verts:
+        v.co *= 1 + rnd.uniform(-jitter, jitter)
+        if flat is not None and v.co.z < flat: v.co.z = flat + (v.co.z - flat) * 0.08
+        v.co = Vector((v.co.x * scale[0], v.co.y * scale[1], v.co.z * scale[2]))
+    for f in bm.faces: f.material_index = mi_fun(f, rnd) if mi_fun else mi
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); add(bm, M)
+
+def ribbon(path, w, t, mi, up=(0, 0, 1)):
+    """Flat strap along points: width w across, thickness t along the face normal (straps, belts, bands).
+    up: hint for the strap face normal, a vector or a function of the point index."""
+    P = [Vector(p) for p in path]; bm = bmesh.new(); rings = []
+    for i, p in enumerate(P):
+        tg = (P[min(i + 1, len(P) - 1)] - P[max(i - 1, 0)]).normalized()
+        u = Vector(up(i) if callable(up) else up); nrm = (u - tg * u.dot(tg)).normalized(); sd = tg.cross(nrm)
+        rings.append([bm.verts.new(p + sd * sx * w / 2 + nrm * sz * t / 2) for sx, sz in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+    for i in range(len(P) - 1):
+        for k in range(4):
+            bm.faces.new([rings[i][k], rings[i][(k + 1) % 4], rings[i + 1][(k + 1) % 4], rings[i + 1][k]])
+    bm.faces.new(rings[0][::-1]); bm.faces.new(rings[-1])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); add(bm, None, mi)
+
+def rotx(a): return Matrix.Rotation(math.radians(a), 4, 'X')
+def roty(a): return Matrix.Rotation(math.radians(a), 4, 'Y')
+def rotz(a): return Matrix.Rotation(math.radians(a), 4, 'Z')
+def at(x, y, z): return Matrix.Translation((x, y, z))
+BACK = rotx(90)                                 # lathe axis Z -> -Y
+
+def shift(dx, dy, dz):
+    bmesh.ops.translate(BM, verts=BM.verts, vec=(dx, dy, dz))
+
+def ground_centre():
+    """Move the model so the footprint centre sits on the origin and the lowest point on z = 0."""
+    xs = [v.co for v in BM.verts]
+    lo = [min(v[a] for v in xs) for a in range(3)]; hi = [max(v[a] for v in xs) for a in range(3)]
+    shift(-(lo[0] + hi[0]) / 2, -(lo[1] + hi[1]) / 2, -lo[2])
+
+def finish(NAME, seat=None, smooth_angle=35):
+    """Weld, smooth, export FBX exactly like the anchors, print stats."""
+    bmesh.ops.remove_doubles(BM, verts=BM.verts, dist=0.0002)
+    me = bpy.data.meshes.new(NAME + '_Mesh'); BM.to_mesh(me)
+    for m in ORDER: me.materials.append(m)
+    me.shade_smooth(); me.set_sharp_from_angle(angle=math.radians(smooth_angle))
+    obj = bpy.data.objects.new(NAME + '_Mesh', me); scene.collection.objects.link(obj)
+    root = bpy.data.objects.new(NAME, None); scene.collection.objects.link(root); obj.parent = root
+    if seat:
+        s = bpy.data.objects.new('Seat', None); scene.collection.objects.link(s); s.parent = root; s.location = seat
+    tris = sum(len(p.vertices) - 2 for p in me.polygons)
+    xs = [v.co for v in me.vertices]; lo = [min(v[a] for v in xs) for a in range(3)]; hi = [max(v[a] for v in xs) for a in range(3)]
+    used = sorted({p.material_index for p in me.polygons})
+    print(f'[{NAME}] triangles {tris}, materials {len(used)} {[ORDER[i].name for i in used]}, '
+          f'size {hi[0]-lo[0]:.3f} x {hi[1]-lo[1]:.3f} x {hi[2]-lo[2]:.3f} m, '
+          f'x {lo[0]:.3f}..{hi[0]:.3f} y {lo[1]:.3f}..{hi[1]:.3f} z {lo[2]:.3f}..{hi[2]:.3f}')
+    for o in scene.objects: o.select_set(True)
+    bpy.ops.export_scene.fbx(filepath=f'{OUT}/{NAME}.fbx', use_selection=True, apply_unit_scale=True,
+                             apply_scale_options='FBX_SCALE_ALL', axis_forward='-Z', axis_up='Y', bake_space_transform=True)
+    return lo, hi
+
+def stage(lo):
+    """Plain light grey backdrop with a soft shadow, sun, Eevee at 1672x941; returns the camera."""
+    world = bpy.data.worlds.new('W'); scene.world = world; world.use_nodes = True
+    wn = world.node_tree.nodes; wl = world.node_tree.links
+    wn['Background'].inputs['Color'].default_value = (0.62, 0.62, 0.63, 1)        # what lights the model
+    wn['Background'].inputs['Strength'].default_value = 0.6
+    bgc = wn.new('ShaderNodeBackground'); bgc.inputs['Color'].default_value = (0.78, 0.78, 0.78, 1)   # what the camera sees
+    lp = wn.new('ShaderNodeLightPath'); mix = wn.new('ShaderNodeMixShader')
+    wl.new(lp.outputs['Is Camera Ray'], mix.inputs['Fac']); wl.new(wn['Background'].outputs[0], mix.inputs[1])
+    wl.new(bgc.outputs[0], mix.inputs[2]); wl.new(mix.outputs[0], wn['World Output'].inputs['Surface'])
+    gm = bpy.data.materials.new('GroundM'); gm.use_nodes = True; gb = gm.node_tree.nodes['Principled BSDF']
+    gb.inputs['Base Color'].default_value = (0.10, 0.10, 0.10, 1); gb.inputs['Roughness'].default_value = 0.95
+    gb.inputs['Emission Color'].default_value = (0.78, 0.78, 0.78, 1); gb.inputs['Emission Strength'].default_value = 0.86
+    gme = bpy.data.meshes.new('Ground'); g = bmesh.new(); bmesh.ops.create_grid(g, x_segments=1, y_segments=1, size=200); g.to_mesh(gme); g.free()
+    gme.materials.append(gm); ground = bpy.data.objects.new('Ground', gme); scene.collection.objects.link(ground); ground.location.z = lo[2]
+    sd = bpy.data.lights.new('Sun', 'SUN'); sd.energy = 2.6; sd.angle = math.radians(12)
+    sun = bpy.data.objects.new('Sun', sd); scene.collection.objects.link(sun)
+    sun.rotation_euler = (math.radians(40), 0, math.radians(-30))
+    scene.render.engine = 'BLENDER_EEVEE'; scene.view_settings.view_transform = 'Standard'
+    scene.render.resolution_x, scene.render.resolution_y = 1672, 941
+    cd = bpy.data.cameras.new('Cam'); cam = bpy.data.objects.new('Cam', cd); scene.collection.objects.link(cam); scene.camera = cam
+    cd.clip_start = 0.005; cd.clip_end = 500
+    return cam, sun
+
+def render(lo, hi, az=-35, el=18, lens=50, fill=0.95, sun=None):
+    """Three-quarter preview with the camera fitted to the mesh vertices so the model fills the frame."""
+    from bpy_extras.object_utils import world_to_camera_view
+    cam, sunobj = stage(lo); cd = cam.data; cd.lens = lens
+    if sun: sunobj.rotation_euler = (math.radians(sun[0]), 0, math.radians(az + sun[1]))
+    c = Vector([(lo[i] + hi[i]) / 2 for i in range(3)])
+    verts = [Vector(v.co) for o in scene.objects if o.type == 'MESH' and o.name.endswith('_Mesh') for v in o.data.vertices]
+    corners = verts[::max(1, len(verts) // 3000)]
+    d = Vector((math.sin(math.radians(az)) * math.cos(math.radians(el)), -math.cos(math.radians(az)) * math.cos(math.radians(el)), math.sin(math.radians(el))))
+    def place(dist):
+        cam.location = c + d * dist; cam.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler(); bpy.context.view_layer.update()
+        p = [world_to_camera_view(scene, cam, v) for v in corners]
+        xs = [q.x for q in p]; ys = [q.y for q in p]
+        return max(max(xs) - min(xs), max(ys) - min(ys)), (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+    # centre the projected silhouette, then fit the distance
+    for _ in range(3):
+        a, b = 0.05, 300.0
+        for _ in range(40):
+            m = (a + b) / 2
+            if place(m)[0] > fill: a = m
+            else: b = m
+        s, cx, cy = place(b)
+        right = cam.matrix_world.to_3x3() @ Vector((1, 0, 0)); upv = cam.matrix_world.to_3x3() @ Vector((0, 1, 0))
+        w = 2 * b * math.tan(cd.angle_x / 2) if hasattr(cd, 'angle_x') else b
+        h = w * 941 / 1672
+        c = c + right * (cx - 0.5) * w + upv * (cy - 0.5) * h
+    place(b)
+    scene.render.filepath = f'{OUT}/render-34.png'; bpy.ops.render.render(write_still=True)
+
+def compare():
+    ref = f'{OUT}/ref-34.png'; ren = f'{OUT}/render-34.png'; out = f'{OUT}/compare.jpg'
+    if os.path.exists(ref):
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', ref, '-i', ren, '-filter_complex',
+                        '[0]scale=-2:941[a];[a][1]hstack', '-q:v', '3', out])
+    else: subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', ren, '-q:v', '3', out])
+# ---------------------------------------------------------------- model
+# Cast-iron manhole cover, 0.65 m across, in a square concrete collar 0.9 m wide, about 3 cm proud of the ground.
+# Iron seating ring, two beaded rims, a field of raised square bosses and two pick holes. No text.
+NAME = 'Manhole'
+PALETTE.update({
+    'CastIron':     ((0.085, 0.085, 0.09), 0.65, 0.45, 0, 1),
+    'CastIronWorn': ((0.13, 0.13, 0.13), 0.5, 0.5, 0, 1),
+    'ConcreteDark': ((0.20, 0.20, 0.19), 0.95, 0.0, 0, 1),
+})
+CONC, CD, IRON, WORN, BLK = use('Concrete', 'ConcreteDark', 'CastIron', 'CastIronWorn', 'Black')
+H = 0.022
+box((-0.45, -0.45, 0.0), (0.45, 0.45, H - 0.002), CONC, 0.012, 2)                         # concrete collar
+lathe([(0.375, H - 0.002, CD), (0.375, H + 0.001, CD), (0.36, H + 0.001, CD)], 32, CD, cap_top=False, cap_bot=False)   # darker grout ring
+lathe([(0.362, H - 0.004), (0.362, H + 0.004), (0.355, H + 0.008), (0.33, H + 0.008), (0.326, H + 0.004)], 32, IRON, cap_bot=False, cap_top=False)   # seating ring
+lathe([(0.326, H), (0.325, H + 0.006), (0.0, H + 0.006)], 32, IRON)                        # cover plate
+lathe([(0.318, H + 0.006), (0.318, H + 0.011), (0.312, H + 0.013), (0.300, H + 0.013), (0.296, H + 0.011), (0.296, H + 0.006)], 32, WORN, cap_bot=False, cap_top=False)   # worn rim bead
+lathe([(0.262, H + 0.006), (0.262, H + 0.012), (0.255, H + 0.013), (0.250, H + 0.012), (0.250, H + 0.006)], 32, WORN, cap_bot=False, cap_top=False)   # inner bead
+# raised square bosses inside r = 0.245, with two pick holes in clear spots on the X axis
+P = 0.052; T = 0.034; Z0 = H + 0.006; Z1 = H + 0.0115; RG = 0.245
+for i in range(-4, 5):
+    for j in range(-4, 5):
+        x, y = i * P, j * P
+        if math.hypot(abs(x) + T / 2, abs(y) + T / 2) > RG: continue
+        if j == 0 and abs(i) == 4: continue
+        box((x - T / 2, y - T / 2, Z0), (x + T / 2, y + T / 2, Z1), WORN, 0.002, 1)
+for sx in (-1, 1):
+    box((sx * 0.208 - 0.016, -0.008, Z0), (sx * 0.208 + 0.016, 0.008, Z0 + 0.0008), BLK, 0.0, 1)
+    for dx in (-0.016, 0.016):
+        lathe([(0.0, Z0 + 0.0008), (0.008, Z0 + 0.0008)], 12, BLK, at(sx * 0.208 + dx, 0, 0), cap_bot=False)
+ground_centre()
+lo, hi = finish(NAME)
+render(lo, hi, az=-30, el=38, lens=50)
+compare()

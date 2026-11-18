@@ -1,24 +1,24 @@
 # Previs Props
 
-147 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
+166 free 3D props for film previs and blocking: vehicles, buildings, modular set pieces, street items, furniture,
 fixtures, hand props, nature and prop weapons. One consistent look, flat colours, soft bevelled edges, light
 enough for a standalone VR headset.
 
-Status: exploration. First public cut 2026-11-13, 20 more props and the sedan buck added the same day, a helicopter, five more prop guns and 20 more props on 2026-11-14. The models have been rendered in Blender but not yet checked
+Status: exploration. First public cut 2026-11-13, 20 more props and the sedan buck added the same day, a helicopter, five more prop guns and 20 more props on 2026-11-14, 19 more on 2026-11-18. The models have been rendered in Blender but not yet checked
 in a game engine.
 
 ## What is here
 
 | Group | Count | Folder |
 |---|---|---|
-| Vehicles | 23 | `models/vehicles` |
-| Buildings and structures | 12 | `models/buildings` |
+| Vehicles | 25 | `models/vehicles` |
+| Buildings and structures | 15 | `models/buildings` |
 | Modular set pieces | 18 | `models/set-pieces` |
-| Street and yard | 23 | `models/street` |
-| Furniture | 21 | `models/furniture` |
-| Fixtures and electronics | 14 | `models/fixtures` |
-| Hand props | 17 | `models/hand-props` |
-| Nature | 10 | `models/nature` |
+| Street and yard | 26 | `models/street` |
+| Furniture | 23 | `models/furniture` |
+| Fixtures and electronics | 16 | `models/fixtures` |
+| Hand props | 22 | `models/hand-props` |
+| Nature | 12 | `models/nature` |
 | Prop weapons | 9 | `models/prop-weapons` |
 
 Each model has its own folder with the FBX, the Blender script that built it (`make_<name>.py`) and a render

@@ -1028,5 +1028,138 @@
   "fbx": [
    "Speedboat.fbx"
   ]
+ },
+ {
+  "name": "militarytruck",
+  "category": "vehicles",
+  "fbx": [
+   "MilitaryTruck.fbx"
+  ]
+ },
+ {
+  "name": "smallplane",
+  "category": "vehicles",
+  "fbx": [
+   "SmallPlane.fbx"
+  ]
+ },
+ {
+  "name": "officetower",
+  "category": "buildings",
+  "fbx": [
+   "OfficeTower.fbx"
+  ]
+ },
+ {
+  "name": "motel",
+  "category": "buildings",
+  "fbx": [
+   "Motel.fbx"
+  ]
+ },
+ {
+  "name": "hospitalentrance",
+  "category": "buildings",
+  "fbx": [
+   "HospitalEntrance.fbx"
+  ]
+ },
+ {
+  "name": "flowers",
+  "category": "nature",
+  "fbx": [
+   "Flowers.fbx"
+  ]
+ },
+ {
+  "name": "tallgrass",
+  "category": "nature",
+  "fbx": [
+   "TallGrass.fbx"
+  ]
+ },
+ {
+  "name": "newspaperbox",
+  "category": "street",
+  "fbx": [
+   "NewspaperBox.fbx"
+  ]
+ },
+ {
+  "name": "manhole",
+  "category": "street",
+  "fbx": [
+   "Manhole.fbx"
+  ]
+ },
+ {
+  "name": "scaffolding",
+  "category": "street",
+  "fbx": [
+   "Scaffolding.fbx"
+  ]
+ },
+ {
+  "name": "hospitalmonitor",
+  "category": "fixtures",
+  "fbx": [
+   "HospitalMonitor.fbx"
+  ]
+ },
+ {
+  "name": "shopfridge",
+  "category": "fixtures",
+  "fbx": [
+   "ShopFridge.fbx"
+  ]
+ },
+ {
+  "name": "officecubicle",
+  "category": "furniture",
+  "fbx": [
+   "OfficeCubicle.fbx"
+  ]
+ },
+ {
+  "name": "barshelves",
+  "category": "furniture",
+  "fbx": [
+   "BarShelves.fbx"
+  ]
+ },
+ {
+  "name": "keys",
+  "category": "hand-props",
+  "fbx": [
+   "Keys.fbx"
+  ]
+ },
+ {
+  "name": "wallet",
+  "category": "hand-props",
+  "fbx": [
+   "Wallet.fbx"
+  ]
+ },
+ {
+  "name": "banknotes",
+  "category": "hand-props",
+  "fbx": [
+   "Banknotes.fbx"
+  ]
+ },
+ {
+  "name": "cigarettepack",
+  "category": "hand-props",
+  "fbx": [
+   "CigarettePack.fbx"
+  ]
+ },
+ {
+  "name": "pen",
+  "category": "hand-props",
+  "fbx": [
+   "Pen.fbx"
+  ]
  }
 ]
